@@ -20,17 +20,17 @@ const EnrolledUsers = () => {
   return (
     <div>
 
-      <div>
-        Search by Record ID
-        <input
-          type="text"
-          placeholder="Type a record id..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="border p-2 rounded-md w-full"
-        />
-      </div>
-      <div className='flex justify-end mb-4'>
+      <div className='flex w-full justify-between items-end align-baseline mb-4'>
+        <div className="flex flex-col gap-2">
+          <span>Search by Record ID</span>
+          <input
+            type="text"
+            placeholder="Type a record id..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border border-gray-600/40 p-2 rounded-md w-100"
+          />
+        </div>
         <button className="bg-blue-800 text-white px-4 py-2 h-10 rounded hover:cursor-pointer hover:bg-blue-900">Export Enrolled Users Data</button>
       </div>
 
