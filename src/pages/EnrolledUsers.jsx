@@ -1,12 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUsers } from '../context/UserContext';
 
 const EnrolledUsers = () => {
   const { enrolledUsers } = useUsers();
+  const [filteredUsers, setFilteredUsers] = useState(enrolledUsers);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredUsers(enrolledUsers);
+    } else {
+      setFilteredUsers(enrolledUsers.filter(user =>
+        user.record_id.toLowerCase().includes(searchTerm.toLowerCase())
+      ) || []
+      );
+    }
+  }, [searchTerm, enrolledUsers]);
 
   return (
     <div>
 
+      <div>
+        Search by Record ID
+        <input
+          type="text"
+          placeholder="Type a record id..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border p-2 rounded-md w-full"
+        />
+      </div>
       <div className='flex justify-end mb-4'>
         <button className="bg-blue-800 text-white px-4 py-2 h-10 rounded hover:cursor-pointer hover:bg-blue-900">Export Enrolled Users Data</button>
       </div>
@@ -22,7 +45,7 @@ const EnrolledUsers = () => {
           </tr>
         </thead>
         <tbody>
-          {enrolledUsers.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user.id} className="border-t border-neutral-600/50">
               <td className="p-2 text-center">
                 <button type="button" className="flex items-center justify-center w-7 h-7 bg-transparent border rounded-sm border-gray-600 hover:cursor-pointer hover:bg-gray-300 ">
@@ -33,8 +56,8 @@ const EnrolledUsers = () => {
                 </button>
               </td>
               <td className="p-2 text-center">{user.id}</td>
-              <td className="p-2 text-center">{user.redcapId}</td>
-              <td className="p-2 text-center">{user.enrolledAt}</td>
+              <td className="p-2 text-center">{user.record_id}</td>
+              <td className="p-2 text-center">{user.enrolled_at}</td>
               <td className="p-2 text-center text-end">
                 <button className="bg-transparent border border-neutral-600/40 px-3 py-1 rounded">View Details</button>
               </td>
